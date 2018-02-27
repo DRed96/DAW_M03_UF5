@@ -1,5 +1,6 @@
 package elements;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -8,20 +9,11 @@ import java.util.Scanner;
  */
 public class Ombrella extends ElementLloguer {
 
-    private Hamaca[] hamaques;
+    private ArrayList<Hamaca> hamaques;
 
     public Ombrella(String pDataAlta) {
         super(pDataAlta);
-        hamaques = new Hamaca[4];
-
-    }
-
-    public Hamaca[] getHamaques() {
-        return hamaques;
-    }
-
-    public void setHamaques(Hamaca[] pHamaques) {
-        hamaques = pHamaques;
+        hamaques = new ArrayList<>(4);
     }
 
     public static Ombrella novaOmbrella() {
@@ -43,41 +35,49 @@ public class Ombrella extends ElementLloguer {
 
     public void mostrarElement() {
         super.mostrarElement();
-        for (int i = 0; i < hamaques.length; i++) {
-            if (hamaques[i] != null) {
-                hamaques[i].mostrarElement();
-            }
+        for(Hamaca hamaca:hamaques){
+            hamaca.mostrarElement();
         }
     }
 
-    public void afegirHamaca(Hamaca hamaca) {
-        boolean trobat = false;
-        //Afegim l'hamaca en el primer espai buit del vector
-        for (int i = 0; i < hamaques.length && !trobat; i++) {
-            if (hamaques[i] == null) { //Espai buit
-                hamaques[i] = hamaca;
-                hamaques[i].setLlogat(true);
-                trobat = true;
-            }
+    public void afegirHamaca(Hamaca afegir) { 
+        
+//        boolean trobat = false;
+//        //Afegim l'hamaca en el primer espai buit del vector
+//        for (int i = 0; i < hamaques.length && !trobat; i++) {
+//            if (hamaques[i] == null) { //Espai buit
+//                hamaques[i] = hamaca;
+//                hamaques[i].setLlogat(true);
+//                trobat = true;
+//            }
+//        }
+
+        if(hamaques.size()<4){
+           if(hamaques.contains(afegir)==false){
+                afegir.setLlogat(true);
+                hamaques.add(afegir);
+            } 
         }
     }
 
-    public void treureHamaca(Hamaca hamaca) {
-        boolean trobat = false;
-
-        //Treiem l'hamaca
-        for (int i = 0; i < hamaques.length && !trobat; i++) {
-            if (hamaques[i] !=null && hamaques[i].equals(hamaca)) { //Trobat
-                hamaques[i] = null;
-                hamaques[i].setLlogat(false);
-                trobat = true;
-            }
-        }
-
-        if (!trobat) {
-            System.out.println("L'hamaca no està en el llistat");
-        }
-
-    }
-
+    public void treureHamaca(Hamaca treure) {
+//        boolean trobat = false;
+//        //Treiem l'hamaca
+//        for (int i = 0; i < hamaques.length && !trobat; i++) {
+//            if (hamaques[i] !=null && hamaques[i].equals(hamaca)) { //Trobat
+//                hamaques[i] = null;
+//                hamaques[i].setLlogat(false);
+//                trobat = true;
+//            }
+//        }
+//        if (!trobat) {
+//            System.out.println("L'hamaca no està en el llistat");
+//        }
+        
+        if(hamaques.contains(treure)==true){
+            treure.setLlogat(false);
+            hamaques.remove(treure);
+        } 
+    } 
+    
 }

@@ -1,3 +1,11 @@
+/** Dubtes
+ * ------------------------------------------------------------------
+ * Com ara, l’ArrayList no tindrà cap espai buit, en els mètodes per
+ * afegir elements, l’element s’ha d’afegir en una nova posició que
+ * afegirem després de l’última posició de l’ArrayList.
+ * ------------------------------------------------------------------
+ */
+
 package principal;
 
 import elements.Encarregat;
