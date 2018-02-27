@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<platja cordenades="0022211" nom="Blava">
+<encarregat dni="00000000T" nom="Pep" adreca="C/ Major, 2" />
+<hamaca codi="0" dataAlta="02/02/2018" llogat="Llogat"/>
+<velomar codi="1" dataAlta="04/02/2018" llogat="No Llogat" tobogan="1"/>
+<ombrella codi="2" dataAlta="05/02/2018" llogat="Llogat">
+ <hamaques>
+  <hamaca codi="0" dataAlta="02/02/2018" llogat="Llogat"/>
+ </hamaques>
+</ombrella>
+<zona codi="0001">
+ <lloguers>
+  <loguer codi="0" codiZona="0001" dniEncarregat="00000000T" codiElementLloguer="2" dniClient="01167915K" horaLloguer="12:12:12" tempsLloguer="01:00" totalPagar="8.0" pagat="0" />
+ </lloguers>
+ <elements>
+  <velomar codi="1" dataAlta="04/02/2018" llogat="No Llogat" tobogan="1"/>
+  <ombrella codi="2" dataAlta="05/02/2018" llogat="Llogat">
+   <hamaques>
+    <hamaca codi="0" dataAlta="02/02/2018" llogat="Llogat"/>
+   </hamaques>
+  </ombrella>
+ </elements>
+ <encarregats>
+  <encarregat dni="00000000T" nom="Pep" adreca="C/ Major, 2" />
+ </encarregats>
+</zona>
+</platja>
