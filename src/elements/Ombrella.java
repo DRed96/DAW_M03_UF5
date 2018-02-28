@@ -15,7 +15,11 @@ public class Ombrella extends ElementLloguer {
         super(pDataAlta);
         hamaques = new ArrayList<>(4);
     }
-
+    
+    public ArrayList<Hamaca> getHamaques() {
+        return hamaques;
+    }
+    
     public static Ombrella novaOmbrella() {
         Scanner dades = new Scanner(System.in);
 
@@ -78,6 +82,5 @@ public class Ombrella extends ElementLloguer {
             treure.setLlogat(false);
             hamaques.remove(treure);
         } 
-    } 
-    
+    }  
 }

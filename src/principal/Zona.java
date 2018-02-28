@@ -2,8 +2,12 @@ package principal;
 
 import elements.ElementLloguer;
 import elements.Encarregat;
+import elements.Hamaca;
 import elements.Lloguer;
 import elements.Ombrella;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 /**
@@ -13,16 +17,15 @@ import java.util.Scanner;
 public class Zona implements Element {
 
     private String codi;
-    private Lloguer lloguers[];
-    private static int indexLloguers = 0;
-    private ElementLloguer[] elements;
-    private Encarregat[] encarregats;
+    private ArrayList<Lloguer> lloguers;
+    private ArrayList<ElementLloguer> elements;
+    private Encarregat [] encarregats;
 
     public Zona(String pCodi) {
         codi = pCodi;
-        lloguers = new Lloguer[300];
-        elements = new ElementLloguer[28];
-        encarregats = new Encarregat[3];
+        lloguers = new ArrayList<>(300);
+        //elements = new ArrayList<>(28);
+        //encarregats = new ArrayList<>(3);
     }
 
     public String getCodi() {
@@ -33,37 +36,30 @@ public class Zona implements Element {
         codi = pCodi;
     }
 
-    public Lloguer[] getLloguers() {
+    public ArrayList<Lloguer> getLloguers() {
         return lloguers;
     }
 
-    public void setLloguers(Lloguer[] pLloguers) {
+    public void setLloguers(ArrayList<Lloguer> pLloguers) {
         lloguers = pLloguers;
     }
-
-    public int getIndexLloguers() {
-        return indexLloguers;
-    }
-
-    public void setIndexLloguers(int pIndexLloguers) {
-        indexLloguers = pIndexLloguers;
-    }
-
-    public Encarregat[] getEncarregats() {
+    /*
+    public ArrayList<Encarregat> getEncarregats() {
         return encarregats;
     }
 
-    public void setEncarregats(Encarregat[] pEncarregats) {
+    public void setEncarregats(ArrayList<Encarregat> pEncarregats) {
         encarregats = pEncarregats;
     }
 
-    public ElementLloguer[] getElements() {
+    public ArrayList<ElementLloguer> getElements() {
         return elements;
     }
 
-    public void setElements(ElementLloguer[] pElements) {
+    public void setElements(ArrayList<ElementLloguer> pElements) {
         elements = pElements;
     }
+    */
 
     public static Zona novaZona(String pCodi) {
         Scanner dades = new Scanner(System.in);
@@ -76,6 +72,7 @@ public class Zona implements Element {
         return new Zona(pCodi);
     }
 
+    @Override
     public void modificarElement() {
         Scanner dades = new Scanner(System.in);
         System.out.println("\nZona amb codi: " + codi);
@@ -83,51 +80,47 @@ public class Zona implements Element {
         codi = dades.next();
     }
 
+    @Override
     public void mostrarElement() {
         System.out.println("\nLes dades de la zona amb codi " + codi + " són:");
 
         System.out.println("\nLloguers:");
-        for (int i = 0; i < lloguers.length; i++) {
-            if (lloguers[i] != null) {
-                lloguers[i].mostrarLloguer();
-            }
+        for(Lloguer llog:lloguers){
+            llog.mostrarLloguer();
         }
 
         System.out.println("\nElements:");
-        for (int i = 0; i < elements.length; i++) {
-            if (elements[i] != null) {
-                elements[i].mostrarElement();
-            }
+        for(Element ele:elements){
+            ele.mostrarElement();
         }
-
     }
 
     /*
      LLOGUERS
      */
     public void afegirLloguer(Lloguer lloguer) {
-        lloguers[indexLloguers] = lloguer;
-        indexLloguers++;
+        if(lloguers.contains(lloguer)==false){
+            lloguers.add(lloguer);
+        }
     }
 
     public void tancarLloguer() {
         boolean trobat = false;
         int pos = seleccionarLloguer();
-
+        int codiLloguer;
+//        Element ele;
         if (pos != -1) {
-            for (int i = 0; i < elements.length && !trobat; i++) {
-                if (elements[i] != null && elements[i].getCodi() == lloguers[pos].getCodi()) {
-
-                    elements[i].setLlogat(false);
-
-                    if (elements[i] instanceof Ombrella) {
-                        for (int j = 0; j < ((Ombrella) elements[i]).getHamaques().length; j++) {
-                            if (((Ombrella) elements[i]).getHamaques()[j] != null) {
-                                ((Ombrella) elements[i]).getHamaques()[j].setLlogat(false);
-                            }
+            codiLloguer = lloguers.get(pos).getCodi();
+            
+            for (ElementLloguer ele: elements){
+                if(ele.getCodi() == codiLloguer){
+                    ele.setLlogat(false);
+                    
+                    if(ele instanceof Ombrella){
+                        for(Hamaca ham:((Ombrella) ele).getHamaques()){
+                            ham.setLlogat(false);
                         }
                     }
-                    trobat = true;
                 }
             }
         } else {
@@ -140,17 +133,20 @@ public class Zona implements Element {
         Scanner dades = new Scanner(System.in);
         System.out.println("\nCodi del lloguer?:");
         int codi = dades.nextInt();
-
-        int pos = -1;
-
-        for (int i = 0; i < indexLloguers; i++) {
-            if (lloguers[i].getCodi() == codi) {
-                pos = i;
-                return pos;
+        
+        int i = 0;
+        Lloguer llog;
+        Iterator<Lloguer> it = lloguers.iterator();
+        
+        while(it.hasNext()){
+            i++;
+            llog = it.next();
+            if(llog.getCodi() == codi){
+                return i;
             }
         }
 
-        return pos;
+        return -1;
     }
 
     /*
@@ -158,26 +154,18 @@ public class Zona implements Element {
      */
     public void afegirElementLloguer(ElementLloguer element) {
         boolean trobat = false;
-
-        for (int i = 0; i < elements.length && !trobat; i++) {
-            if (elements[i] == null) {
-                elements[i] = element;
-                trobat = true;
-            }
+        if(elements.contains(element) == false){
+            elements.add(element);
         }
-
     }
 
     public void treureElementLloguer(int codi) {
         boolean trobat = false;
-
-        for (int i = 0; i < elements.length && !trobat; i++) {
-            if (elements[i] != null && elements[i].getCodi() == codi) {
-                elements[i] = null;
-                trobat = true;
+        for (ElementLloguer ele: elements){
+            if(ele.getCodi()==codi){
+                elements.remove(ele);
             }
         }
-
     }
 
     public int seleccionarElementLloguer(int codi) {
@@ -189,15 +177,14 @@ public class Zona implements Element {
             System.out.println("\nCodi de l'elemnt de lloguer?:");
             codi = dades.nextInt();
         }
-
-        for (int i = 0; i < elements.length; i++) {
-
-            if (elements[i] != null && elements[i].getCodi() == codi) {
-                pos = i;
-                return pos;
+        
+        for (ElementLloguer ele: elements){
+            if(ele.getCodi()==codi){
+                return elements.indexOf(ele);
             }
         }
-        return pos;
+        
+        return -1;
     }
 
     /*
